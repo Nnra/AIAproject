@@ -167,3 +167,123 @@ mfccs = np.mean(librosa.feature.mfcc(y=X, sr=sample_rate, n_mfcc=100).T,axis=0)
 
 <img src="https://i.imgur.com/PmOG6fn.png" width=50%>
 
+- librosa.load
+
+```=python
+librosa.core.load(path, sr=22050, mono=True, offset=0.0, duration=None, dtype=<class 'numpy.float32'>, res_type='kaiser_fast')
+```
+
+- librosa.effects.trim
+
+```=python
+librosa.effects.trim(y, top_db=30, ref=<function amax at 0x7fa274a61d90>, frame_length=1024, hop_length=512)
+```
+
+- librosa.feature.mfcc
+
+```=python
+librosa.feature.mfcc(y=None, sr=22050, S=None, n_mfcc=100, dct_type=2, norm='ortho', lifter=0, **kwargs)
+```
+
+### 模型 - 模型說明-model 1 結構與方法(改良後)
+
+
+<img src="https://i.imgur.com/f2L7aVu.png" width=80&></img>
+
+```
+Model: "sequential_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv1d_1 (Conv1D)            (None, 100, 128)          768       
+_________________________________________________________________
+batch_normalization_1 (Batch (None, 100, 128)          512       
+_________________________________________________________________
+activation_1 (Activation)    (None, 100, 128)          0         
+_________________________________________________________________
+conv1d_2 (Conv1D)            (None, 100, 128)          82048     
+_________________________________________________________________
+batch_normalization_2 (Batch (None, 100, 128)          512       
+_________________________________________________________________
+activation_2 (Activation)    (None, 100, 128)          0         
+_________________________________________________________________
+max_pooling1d_1 (MaxPooling1 (None, 12, 128)           0         
+_________________________________________________________________
+conv1d_3 (Conv1D)            (None, 12, 128)           82048     
+_________________________________________________________________
+batch_normalization_3 (Batch (None, 12, 128)           512       
+_________________________________________________________________
+activation_3 (Activation)    (None, 12, 128)           0         
+_________________________________________________________________
+conv1d_4 (Conv1D)            (None, 12, 128)           82048     
+_________________________________________________________________
+batch_normalization_4 (Batch (None, 12, 128)           512       
+_________________________________________________________________
+activation_4 (Activation)    (None, 12, 128)           0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 1536)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 8)                 12296     
+_________________________________________________________________
+activation_5 (Activation)    (None, 8)                 0         
+=================================================================
+Total params: 261,256
+Trainable params: 260,232
+Non-trainable params: 1,024
+_________________________________________________________________
+
+```
+
+### Siamens Network Description
+
+<img src="https://i.imgur.com/oX3rRGb.png" width=60%></img>
+
+
+### model 1 ：Voice Emotion Predict Architecture
+
+<img src="https://i.imgur.com/NvzCFEi.png" width=80%></img>
+
+
+### model 2 ：Facial Emotion Predict Architecture
+
+<img src="https://i.imgur.com/YcQQhaQ.png" width=80%></img>
+
+> Reference:
+https://github.com/sunniee/Emotion_classification_Ravdess
+
+### model 2 ：Facial Emotion Predict Description
+
+<img src ="https://i.imgur.com/3DqfZNV.png" width=50%></img>
+
+### model 2 ：Facial Emotion Predict Process
+
+<img src="https://i.imgur.com/10VdSbU.png" width=80%></img>
+
+## 系統
+### System Architecture
+
+<img src="https://i.imgur.com/tSS6ywo.png" width=80%></img>
+
+
+### Architecture - Web Data Flow
+
+<img src="https://i.imgur.com/8fBwFpX.png" width=80%></img>
+
+### How to pick music list and record behavior ?
+
+```
+After prediction, get emption from model 1 and model 2.
+Use predicted emption of model 1 to choose 5 records with the same labeled music emotion in database, and do the same thing in model 2.
+Show 10 music records in web page, users can review the music, and when the users download the music, the behavior will be saved included music youtube id, current users’ emotion and download time. 
+```
+
+### Architecture - Web Stack
+
+<img src="https://i.imgur.com/GeowksP.png" width=80%></img>
+
+
+## DEMO
+
+https://obscure-ravine-38834.herokuapp.com/
+
+
